@@ -1,5 +1,5 @@
 """
-Citrus Converter - System Tray Icon
+Elumichai - System Tray Icon
 =====================================
 Provides a persistent system-tray presence with context menu and
 notification support.

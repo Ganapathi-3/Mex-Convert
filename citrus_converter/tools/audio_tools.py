@@ -48,7 +48,7 @@ class AudioTools:
         """
         path = Path(path).resolve()
         out = _output_path(path, "_normalized")
-        print(f"[citrus] Normalizing {path.name} …")
+        print(f"[elumichai] Normalizing {path.name} …")
 
         # Pass 1: measure loudness
         cmd_measure = [
@@ -75,7 +75,7 @@ class AudioTools:
                 str(out),
             ]
             _run(cmd_simple)
-            print(f"[citrus] Done → {out}")
+            print(f"[elumichai] Done → {out}")
             return str(out)
 
         stats = json.loads(stderr[json_start:json_end])
@@ -96,7 +96,7 @@ class AudioTools:
             str(out),
         ]
         _run(cmd_apply)
-        print(f"[citrus] Done → {out}")
+        print(f"[elumichai] Done → {out}")
         return str(out)
 
     @staticmethod
@@ -108,7 +108,7 @@ class AudioTools:
         """
         path = Path(path).resolve()
         out = _output_path(path, "_trimmed")
-        print(f"[citrus] Trimming {path.name} [{start} → {end}] …")
+        print(f"[elumichai] Trimming {path.name} [{start} → {end}] …")
         cmd = [
             "ffmpeg", "-y",
             "-i", str(path),
@@ -118,7 +118,7 @@ class AudioTools:
             str(out),
         ]
         _run(cmd)
-        print(f"[citrus] Done → {out}")
+        print(f"[elumichai] Done → {out}")
         return str(out)
 
     @staticmethod
@@ -131,14 +131,14 @@ class AudioTools:
         path = Path(path).resolve()
         label = "mono" if channels == 1 else f"{channels}ch"
         out = _output_path(path, f"_{label}")
-        print(f"[citrus] Changing {path.name} to {channels} channel(s) …")
+        print(f"[elumichai] Changing {path.name} to {channels} channel(s) …")
         cmd = [
             "ffmpeg", "-y", "-i", str(path),
             "-ac", str(int(channels)),
             str(out),
         ]
         _run(cmd)
-        print(f"[citrus] Done → {out}")
+        print(f"[elumichai] Done → {out}")
         return str(out)
 
     @staticmethod

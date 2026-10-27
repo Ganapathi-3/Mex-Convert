@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Citrus Converter - Main Entry Point
+Elumichai - Main Entry Point
 
 Launches either the GUI application or the CLI based on arguments.
 
 Usage:
-    citrus-converter              # Launch GUI
-    citrus-converter --cli ...    # Use CLI mode
-    citrus-converter --help       # Show help
+    elumichai              # Launch GUI
+    elumichai --cli ...    # Use CLI mode
+    elumichai --help       # Show help
 """
 
 import sys
@@ -31,19 +31,19 @@ def main():
 
     # Launch GUI
     try:
-        from citrus_converter.app import CitrusApp
-        app = CitrusApp(sys.argv)
+        from citrus_converter.app import ElumichaiApp
+        app = ElumichaiApp(sys.argv)
         if getattr(app, "_already_running", False):
             return 0
         return app.exec()
     except ImportError as e:
         print(f"GUI dependencies not available: {e}")
         print("   Install PySide6: python3 -m pip install PySide6")
-        print("   Or use CLI mode: citrus-converter --cli convert file.png jpg")
+        print("   Or use CLI mode: elumichai --cli convert file.png jpg")
         return 1
     except Exception as e:
         print(f"Failed to start GUI: {e}")
-        print("   Try CLI mode: citrus-converter --cli convert file.png jpg")
+        print("   Try CLI mode: elumichai --cli convert file.png jpg")
         return 1
 
 

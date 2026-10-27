@@ -1,5 +1,5 @@
 """
-Citrus Converter — Main Application
+Elumichai — Main Application
 ====================================
 Subclasses QApplication to manage the app lifecycle, system tray, theming,
 and command-line argument handling.
@@ -8,7 +8,7 @@ and command-line argument handling.
 import sys
 
 from PySide6.QtCore import Qt, QLockFile
-from PySide6.QtGui import QIcon, QPainter, QPixmap, QColor
+from PySide6.QtGui import QIcon, QPainter, QPixmap, QColor, QPainterPath, QPen
 from PySide6.QtWidgets import QApplication
 
 # ---------------------------------------------------------------------------
@@ -199,23 +199,40 @@ QGroupBox::title {
 
 
 def _make_app_icon(size: int = 64) -> QIcon:
-    """Generate a simple orange-circle app icon programmatically."""
+    """Generate the Elumichai lemon icon programmatically."""
     pix = QPixmap(size, size)
     pix.fill(Qt.transparent)
     painter = QPainter(pix)
     painter.setRenderHint(QPainter.Antialiasing)
-    painter.setBrush(QColor(ACCENT_COLOR))
+    lemon = QPainterPath()
+    lemon.moveTo(size * 0.16, size * 0.59)
+    lemon.cubicTo(size * 0.12, size * 0.39, size * 0.28, size * 0.18, size * 0.47, size * 0.17)
+    lemon.cubicTo(size * 0.67, size * 0.15, size * 0.84, size * 0.28, size * 0.83, size * 0.47)
+    lemon.cubicTo(size * 0.82, size * 0.67, size * 0.60, size * 0.82, size * 0.39, size * 0.83)
+    lemon.cubicTo(size * 0.25, size * 0.83, size * 0.17, size * 0.73, size * 0.16, size * 0.59)
+    lemon.closeSubpath()
+    painter.setBrush(QColor("#F5D547"))
+    painter.setPen(QPen(QColor("#C59A16"), max(1, size // 24)))
+    painter.drawPath(lemon)
+
+    # Soft highlight on the lemon peel.
+    painter.setBrush(QColor("#FFF2A6"))
     painter.setPen(Qt.NoPen)
-    painter.drawEllipse(2, 2, size - 4, size - 4)
-    # Small leaf-like accent
-    painter.setBrush(QColor("#4CAF50"))
-    painter.drawEllipse(size // 2 - 4, 4, 12, 8)
+    painter.drawEllipse(int(size * 0.25), int(size * 0.28), int(size * 0.16), int(size * 0.09))
+
+    # Green leaf at the stem.
+    leaf = QPainterPath()
+    leaf.moveTo(size * 0.45, size * 0.20)
+    leaf.cubicTo(size * 0.50, size * 0.03, size * 0.72, size * 0.04, size * 0.68, size * 0.17)
+    leaf.cubicTo(size * 0.61, size * 0.23, size * 0.52, size * 0.23, size * 0.45, size * 0.20)
+    painter.setBrush(QColor("#4E9F46"))
+    painter.drawPath(leaf)
     painter.end()
     return QIcon(pix)
 
 
-class CitrusApp(QApplication):
-    """Main application object for Citrus Converter."""
+class ElumichaiApp(QApplication):
+    """Main application object for Elumichai."""
 
     def __init__(self, argv: list[str]) -> None:
         super().__init__(argv)
@@ -225,9 +242,9 @@ class CitrusApp(QApplication):
         if self._already_running:
             return
 
-        self.setApplicationName("Citrus Converter")
+        self.setApplicationName("Elumichai")
         self.setApplicationVersion("1.0.0")
-        self.setOrganizationName("CitrusProject")
+        self.setOrganizationName("Elumichai")
         self.setQuitOnLastWindowClosed(False)
 
         # Determine run-mode ------------------------------------------------
@@ -261,7 +278,7 @@ class CitrusApp(QApplication):
             self.aboutToQuit.connect(self.global_drag.stop)
             self.aboutToQuit.connect(self._release_single_instance)
 
-            # Citrus is a background utility: launching it should not put a
+            # Elumichai is a background utility: launching it should not put a
             # small converter window in front of the user's work.  A supplied
             # file path is the explicit exception and opens the wheel at once.
             file_args = [arg for arg in argv[1:] if not arg.startswith("-") and arg != "--drop-target"]
@@ -272,7 +289,7 @@ class CitrusApp(QApplication):
     def _acquire_single_instance(self) -> None:
         """Prevent duplicate tray icons from repeated autostart launches."""
         from pathlib import Path
-        lock_path = Path.home() / ".config" / "citrus-converter" / "instance.lock"
+        lock_path = Path.home() / ".config" / "elumichai" / "instance.lock"
         lock_path.parent.mkdir(parents=True, exist_ok=True)
         lock = QLockFile(str(lock_path))
         lock.setStaleLockTime(30000)
@@ -299,7 +316,7 @@ class CitrusApp(QApplication):
     @staticmethod
     def run() -> int:
         """Convenience entry-point: create the app and exec."""
-        app = CitrusApp(sys.argv)
+        app = ElumichaiApp(sys.argv)
         if app._cli_mode:
             # In CLI mode the GUI is not started; other code drives conversion.
             return 0

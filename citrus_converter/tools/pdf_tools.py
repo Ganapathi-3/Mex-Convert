@@ -52,7 +52,7 @@ class PdfTools:
         output = Path(output).resolve()
         output.parent.mkdir(parents=True, exist_ok=True)
 
-        print(f"[citrus] Merging {len(resolved)} PDFs → {output.name} …")
+        print(f"[elumichai] Merging {len(resolved)} PDFs → {output.name} …")
 
         if shutil.which("qpdf"):
             PdfTools._merge_qpdf(resolved, output)
@@ -64,7 +64,7 @@ class PdfTools:
                 "Please install one to merge PDFs."
             )
 
-        print(f"[citrus] Done → {output}")
+        print(f"[elumichai] Done → {output}")
         return str(output)
 
     @staticmethod
@@ -100,7 +100,7 @@ class PdfTools:
         output_dir = Path(output_dir).resolve()
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        print(f"[citrus] Splitting {path.name} into pages → {output_dir} …")
+        print(f"[elumichai] Splitting {path.name} into pages → {output_dir} …")
 
         if shutil.which("qpdf"):
             pages = PdfTools._split_qpdf(path, output_dir)
@@ -112,7 +112,7 @@ class PdfTools:
                 "Please install one to split PDFs."
             )
 
-        print(f"[citrus] Done — {len(pages)} page(s) extracted.")
+        print(f"[elumichai] Done — {len(pages)} page(s) extracted.")
         return pages
 
     @staticmethod

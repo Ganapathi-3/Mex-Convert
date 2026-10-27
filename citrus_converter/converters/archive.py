@@ -93,18 +93,18 @@ class ArchiveConverter(BaseConverter):
             input_path, out_fmt, output_dir and Path(output_dir),
         )
 
-        print(f"[citrus] Converting {input_path.name} → {output_path.name} …")
+        print(f"[elumichai] Converting {input_path.name} → {output_path.name} …")
 
         # 1. Extract to a temp dir
         import tempfile
-        with tempfile.TemporaryDirectory(prefix="citrus_") as tmp:
+        with tempfile.TemporaryDirectory(prefix="elumichai_") as tmp:
             tmp_dir = Path(tmp)
             self._extract(input_path, in_ext, tmp_dir)
 
             # 2. Re-create archive in target format
             self._create(output_path, out_fmt, tmp_dir)
 
-        print(f"[citrus] Done → {output_path}")
+        print(f"[elumichai] Done → {output_path}")
         return str(output_path)
 
     # ── extraction ───────────────────────────────────────────────

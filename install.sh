@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Citrus Converter — Installation Script for Debian 12 (Bookworm)
+# Elumichai — Installation Script for Debian 12 (Bookworm)
 #
 # Usage:
 #   chmod +x install.sh
@@ -16,7 +16,7 @@ NC='\033[0m' # No Color
 BOLD='\033[1m'
 
 echo -e "${ORANGE}${BOLD}"
-echo "  🍊 Citrus Converter — Installer"
+echo "  🍋 Elumichai — Installer"
 echo "  ================================"
 echo -e "${NC}"
 
@@ -82,14 +82,14 @@ else
 fi
 
 echo ""
-echo -e "${BOLD}Step 3: Installing Citrus Converter...${NC}"
+echo -e "${BOLD}Step 3: Installing Elumichai...${NC}"
 
 # Install the app
 cd "$(dirname "$0")"
 pip3 install -e . --break-system-packages 2>/dev/null || pip3 install -e .
 
 echo ""
-echo -e "${GREEN}✅ Citrus Converter installed.${NC}"
+echo -e "${GREEN}✅ Elumichai installed.${NC}"
 echo ""
 
 echo -e "${BOLD}Step 4: Creating desktop entry...${NC}"
@@ -98,14 +98,21 @@ DESKTOP_DIR="$HOME/.local/share/applications"
 mkdir -p "$DESKTOP_DIR"
 AUTOSTART_DIR="$HOME/.config/autostart"
 mkdir -p "$AUTOSTART_DIR"
-CITRUS_EXEC="$(command -v citrus-converter)"
+# Remove launchers from the previous project name so both apps cannot
+# autostart and create duplicate tray icons.
+rm -f "$HOME/.local/bin/citrus-converter" "$HOME/.local/bin/citrus-cli"
+rm -f "$DESKTOP_DIR/citrus-converter.desktop" "$AUTOSTART_DIR/citrus-converter.desktop"
+ELUMICHAI_EXEC="$(command -v elumichai)"
+ICON_DIR="$HOME/.local/share/icons/hicolor/scalable/apps"
+mkdir -p "$ICON_DIR"
+cp "$(dirname "$0")/assets/elumichai.svg" "$ICON_DIR/elumichai.svg"
 
-cat > "$DESKTOP_DIR/citrus-converter.desktop" << EOF
+cat > "$DESKTOP_DIR/elumichai.desktop" << EOF
 [Desktop Entry]
-Name=Citrus Converter
+Name=Elumichai
 Comment=Free, offline file conversion tool
-Exec=$CITRUS_EXEC %F
-Icon=citrus-converter
+Exec=$ELUMICHAI_EXEC %F
+Icon=elumichai
 Type=Application
 Categories=Utility;
 Keywords=convert;converter;image;video;audio;document;
@@ -114,34 +121,34 @@ Terminal=false
 MimeType=image/jpeg;image/png;image/webp;image/heic;image/tiff;image/avif;video/mp4;video/quicktime;audio/mpeg;audio/flac;application/pdf;text/plain;application/vnd.openxmlformats-officedocument.wordprocessingml.document;
 EOF
 
-cat > "$AUTOSTART_DIR/citrus-converter.desktop" << EOF
+cat > "$AUTOSTART_DIR/elumichai.desktop" << EOF
 [Desktop Entry]
 Type=Application
-Name=Citrus Converter
+Name=Elumichai
 Comment=Background file conversion wheel
-Exec=$CITRUS_EXEC --background
+Exec=$ELUMICHAI_EXEC --background
 Terminal=false
 X-GNOME-Autostart-enabled=true
 NoDisplay=true
 EOF
 
 echo -e "${GREEN}✅ Desktop entry created.${NC}"
-echo -e "${GREEN}✅ Citrus will start automatically in the system tray at login.${NC}"
+echo -e "${GREEN}✅ Elumichai will start automatically in the system tray at login.${NC}"
 echo ""
 
 # Verify installation
 echo -e "${BOLD}Step 5: Verifying installation...${NC}"
 echo ""
 
-citrus-cli check-deps 2>/dev/null || python3 -m citrus_converter.cli check-deps
+elumichai-cli check-deps 2>/dev/null || python3 -m citrus_converter.cli check-deps
 
 echo ""
-echo -e "${ORANGE}${BOLD}  🍊 Installation Complete!${NC}"
+echo -e "${ORANGE}${BOLD}  🍋 Installation Complete!${NC}"
 echo ""
 echo "  Launch the app:"
-echo "    • GUI:  citrus-converter"
-echo "    • CLI:  citrus-cli convert photo.heic png"
-echo "    • CLI:  citrus-cli --help"
+echo "    • GUI:  elumichai"
+echo "    • CLI:  elumichai-cli convert photo.heic png"
+echo "    • CLI:  elumichai-cli --help"
 echo ""
-echo "  Or find 'Citrus Converter' in your application menu."
+echo "  Or find 'Elumichai' in your application menu."
 echo ""

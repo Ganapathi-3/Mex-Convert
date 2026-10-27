@@ -1,5 +1,5 @@
 """
-Citrus Converter — Conversion Worker
+Elumichai — Conversion Worker
 ======================================
 QThread-based background worker that drives file conversions and emits
 progress / completion / error signals.

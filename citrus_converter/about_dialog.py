@@ -1,11 +1,11 @@
 """
-Citrus Converter — About Dialog
+Elumichai — About Dialog
 =================================
 Shows application name, version, credits, and license information.
 """
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont, QColor, QPainter, QPixmap
+from PySide6.QtGui import QFont, QColor, QPainter, QPixmap, QPainterPath, QPen
 from PySide6.QtWidgets import (
     QDialog,
     QVBoxLayout,
@@ -22,14 +22,14 @@ class AboutDialog(QDialog):
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
-        self.setWindowTitle("About Citrus Converter")
+        self.setWindowTitle("About Elumichai")
         self.setFixedSize(380, 360)
 
         layout = QVBoxLayout(self)
         layout.setSpacing(10)
         layout.setAlignment(Qt.AlignCenter)
 
-        # -- Icon (reuse the programmatic orange circle) ---------------------
+        # -- Lemon icon ------------------------------------------------------
         icon_lbl = QLabel()
         icon_lbl.setAlignment(Qt.AlignCenter)
         size = 72
@@ -37,17 +37,31 @@ class AboutDialog(QDialog):
         pix.fill(Qt.transparent)
         p = QPainter(pix)
         p.setRenderHint(QPainter.Antialiasing)
-        p.setBrush(QColor(ACCENT_COLOR))
+        lemon = QPainterPath()
+        lemon.moveTo(size * 0.16, size * 0.59)
+        lemon.cubicTo(size * 0.12, size * 0.39, size * 0.28, size * 0.18, size * 0.47, size * 0.17)
+        lemon.cubicTo(size * 0.67, size * 0.15, size * 0.84, size * 0.28, size * 0.83, size * 0.47)
+        lemon.cubicTo(size * 0.82, size * 0.67, size * 0.60, size * 0.82, size * 0.39, size * 0.83)
+        lemon.cubicTo(size * 0.25, size * 0.83, size * 0.17, size * 0.73, size * 0.16, size * 0.59)
+        lemon.closeSubpath()
+        p.setBrush(QColor("#F5D547"))
+        p.setPen(QPen(QColor("#C59A16"), max(1, size // 24)))
+        p.drawPath(lemon)
+        p.setBrush(QColor("#FFF2A6"))
         p.setPen(Qt.NoPen)
-        p.drawEllipse(2, 2, size - 4, size - 4)
-        p.setBrush(QColor("#4CAF50"))
-        p.drawEllipse(size // 2 - 4, 4, 12, 8)
+        p.drawEllipse(int(size * 0.25), int(size * 0.28), int(size * 0.16), int(size * 0.09))
+        leaf = QPainterPath()
+        leaf.moveTo(size * 0.45, size * 0.20)
+        leaf.cubicTo(size * 0.50, size * 0.03, size * 0.72, size * 0.04, size * 0.68, size * 0.17)
+        leaf.cubicTo(size * 0.61, size * 0.23, size * 0.52, size * 0.23, size * 0.45, size * 0.20)
+        p.setBrush(QColor("#4E9F46"))
+        p.drawPath(leaf)
         p.end()
         icon_lbl.setPixmap(pix)
         layout.addWidget(icon_lbl)
 
         # -- App name -------------------------------------------------------
-        name_lbl = QLabel("Citrus Converter")
+        name_lbl = QLabel("Elumichai")
         name_lbl.setAlignment(Qt.AlignCenter)
         name_lbl.setFont(QFont("Sans", 18, QFont.Bold))
         name_lbl.setStyleSheet(f"color: {ACCENT_COLOR};")

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Setup script for Citrus Converter."""
+"""Setup script for Elumichai."""
 
 from setuptools import setup, find_packages
 
 setup(
-    name="citrus-converter",
+    name="elumichai",
     version="1.0.0",
     description="Free, offline file conversion tool for Linux — inspired by Tangerine for macOS",
     long_description=open("README.md").read(),
@@ -15,8 +15,8 @@ setup(
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            "citrus-converter=citrus_converter.main:main",
-            "citrus-cli=citrus_converter.cli:main",
+            "elumichai=citrus_converter.main:main",
+            "elumichai-cli=citrus_converter.cli:main",
         ],
     },
     install_requires=[

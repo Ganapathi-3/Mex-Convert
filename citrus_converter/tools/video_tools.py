@@ -55,7 +55,7 @@ class VideoTools:
         """
         path = Path(path).resolve()
         out = _output_path(path, "_compressed")
-        print(f"[citrus] Compressing {path.name} …")
+        print(f"[elumichai] Compressing {path.name} …")
 
         if target_size_mb is not None:
             # Calculate bitrate from target size and duration
@@ -79,7 +79,7 @@ class VideoTools:
                 str(out),
             ]
         _run(cmd)
-        print(f"[citrus] Done → {out}")
+        print(f"[elumichai] Done → {out}")
         return str(out)
 
     @staticmethod
@@ -91,7 +91,7 @@ class VideoTools:
         """
         path = Path(path).resolve()
         out = _output_path(path, "_trimmed")
-        print(f"[citrus] Trimming {path.name} [{start} → {end}] …")
+        print(f"[elumichai] Trimming {path.name} [{start} → {end}] …")
         cmd = [
             "ffmpeg", "-y",
             "-i", str(path),
@@ -101,7 +101,7 @@ class VideoTools:
             str(out),
         ]
         _run(cmd)
-        print(f"[citrus] Done → {out}")
+        print(f"[elumichai] Done → {out}")
         return str(out)
 
     @staticmethod
@@ -118,7 +118,7 @@ class VideoTools:
         path = Path(path).resolve()
         fmt = format.lower().lstrip(".")
         out = _output_path(path, "_audio", f".{fmt}")
-        print(f"[citrus] Extracting audio from {path.name} → .{fmt} …")
+        print(f"[elumichai] Extracting audio from {path.name} → .{fmt} …")
 
         codec_map = {
             "mp3": "libmp3lame",
@@ -137,7 +137,7 @@ class VideoTools:
             str(out),
         ]
         _run(cmd)
-        print(f"[citrus] Done → {out}")
+        print(f"[elumichai] Done → {out}")
         return str(out)
 
     @staticmethod
@@ -149,7 +149,7 @@ class VideoTools:
         """
         path = Path(path).resolve()
         out = _output_path(path, f"_snap_{timestamp.replace(':', '')}", ".png")
-        print(f"[citrus] Taking snapshot of {path.name} at {timestamp} …")
+        print(f"[elumichai] Taking snapshot of {path.name} at {timestamp} …")
         cmd = [
             "ffmpeg", "-y",
             "-ss", str(timestamp),
@@ -158,7 +158,7 @@ class VideoTools:
             str(out),
         ]
         _run(cmd)
-        print(f"[citrus] Done → {out}")
+        print(f"[elumichai] Done → {out}")
         return str(out)
 
     @staticmethod
@@ -171,7 +171,7 @@ class VideoTools:
         path = Path(path).resolve()
         label = f"{factor}x".replace(".", "_")
         out = _output_path(path, f"_{label}")
-        print(f"[citrus] Changing speed of {path.name} → {factor}× …")
+        print(f"[elumichai] Changing speed of {path.name} → {factor}× …")
 
         # Video: setpts=PTS/factor; Audio: atempo=factor (atempo range 0.5-2.0)
         video_filter = f"setpts=PTS/{factor}"
@@ -195,7 +195,7 @@ class VideoTools:
             str(out),
         ]
         _run(cmd)
-        print(f"[citrus] Done → {out}")
+        print(f"[elumichai] Done → {out}")
         return str(out)
 
     @staticmethod

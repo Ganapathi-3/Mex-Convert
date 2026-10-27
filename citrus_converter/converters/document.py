@@ -109,7 +109,7 @@ class DocumentConverter(BaseConverter):
             input_path, out_fmt, output_dir and Path(output_dir),
         )
 
-        print(f"[citrus] Converting {input_path.name} → {output_path.name} …")
+        print(f"[elumichai] Converting {input_path.name} → {output_path.name} …")
 
         # PDF page rasterisation is handled by ImageMagick/poppler rather
         # than a document office backend.
@@ -136,7 +136,7 @@ class DocumentConverter(BaseConverter):
                 "Please install at least one."
             )
 
-        print(f"[citrus] Done → {output_path}")
+        print(f"[elumichai] Done → {output_path}")
         return str(output_path)
 
     # ── private ──────────────────────────────────────────────────

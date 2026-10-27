@@ -1,10 +1,10 @@
 """
-Application configuration for Citrus Converter.
+Application configuration for Elumichai.
 
 Provides both a dataclass-based ``AppConfig`` and a simpler dict-like
 ``Config`` wrapper that the GUI and CLI can use interchangeably.
 
-Reads/writes a JSON config file at ~/.config/citrus-converter/config.json.
+Reads/writes a JSON config file at ~/.config/elumichai/config.json.
 """
 
 from __future__ import annotations
@@ -14,8 +14,9 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Literal
 
-_CONFIG_DIR = Path.home() / ".config" / "citrus-converter"
+_CONFIG_DIR = Path.home() / ".config" / "elumichai"
 _CONFIG_FILE = _CONFIG_DIR / "config.json"
+_LEGACY_CONFIG_FILE = Path.home() / ".config" / "citrus-converter" / "config.json"
 
 # Default values
 _DEFAULTS = {
@@ -47,9 +48,10 @@ class Config:
 
     def _load(self) -> None:
         """Load config from disk, merging with defaults."""
-        if _CONFIG_FILE.exists():
+        source = _CONFIG_FILE if _CONFIG_FILE.exists() else _LEGACY_CONFIG_FILE
+        if source.exists():
             try:
-                data = json.loads(_CONFIG_FILE.read_text(encoding="utf-8"))
+                data = json.loads(source.read_text(encoding="utf-8"))
                 if isinstance(data, dict):
                     self._data.update(data)
             except (json.JSONDecodeError, OSError):

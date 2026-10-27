@@ -15,12 +15,6 @@ citrus_converter/main_window.py
 citrus_converter/radial_menu.py
 citrus_converter/settings_dialog.py
 citrus_converter/system_tray.py
-citrus_converter.egg-info/PKG-INFO
-citrus_converter.egg-info/SOURCES.txt
-citrus_converter.egg-info/dependency_links.txt
-citrus_converter.egg-info/entry_points.txt
-citrus_converter.egg-info/requires.txt
-citrus_converter.egg-info/top_level.txt
 citrus_converter/converters/__init__.py
 citrus_converter/converters/archive.py
 citrus_converter/converters/audio.py
@@ -34,3 +28,9 @@ citrus_converter/tools/image_tools.py
 citrus_converter/tools/metadata.py
 citrus_converter/tools/pdf_tools.py
 citrus_converter/tools/video_tools.py
+elumichai.egg-info/PKG-INFO
+elumichai.egg-info/SOURCES.txt
+elumichai.egg-info/dependency_links.txt
+elumichai.egg-info/entry_points.txt
+elumichai.egg-info/requires.txt
+elumichai.egg-info/top_level.txt

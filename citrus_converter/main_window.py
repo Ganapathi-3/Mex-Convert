@@ -1,5 +1,5 @@
 """
-Citrus Converter — Main Window
+Elumichai — Main Window
 ================================
 The primary application window with menu bar, status bar, and central
 DropZone widget.
@@ -43,7 +43,7 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
 
-        self.setWindowTitle("Citrus Converter")
+        self.setWindowTitle("Elumichai")
         self.setFixedSize(QSize(500, 550))
         self.setAttribute(Qt.WA_TranslucentBackground, False)
 
@@ -111,7 +111,7 @@ class MainWindow(QMainWindow):
         # -- Help menu -------------------------------------------------------
         help_menu = menu_bar.addMenu("&Help")
 
-        about_act = QAction("&About Citrus Converter", self)
+        about_act = QAction("&About Elumichai", self)
         about_act.triggered.connect(self._show_about)
         help_menu.addAction(about_act)
 
@@ -199,7 +199,7 @@ class MainWindow(QMainWindow):
                     app = QApplication.instance()
                     tray = getattr(app, "tray", None)
                 if tray:
-                    tray.showMessage("Citrus Converter", result)
+                    tray.showMessage("Elumichai", result)
         except Exception:
             pass
 
@@ -228,7 +228,7 @@ class MainWindow(QMainWindow):
             method = getattr(tool, method_name, None) if tool else None
             if method is None:
                 QMessageBox.information(
-                    self, "Citrus tool", f"{tool_name.replace('_', ' ').title()} is available in the wheel, but this operation needs a parameter editor before it can run on Linux."
+                    self, "Elumichai tool", f"{tool_name.replace('_', ' ').title()} is available in the wheel, but this operation needs a parameter editor before it can run on Linux."
                 )
                 return
             if method_name == "read_metadata":
@@ -276,7 +276,7 @@ class MainWindow(QMainWindow):
                 kwargs["channels"] = value
 
             result = method(path, **kwargs)
-            QMessageBox.information(self, "Citrus tool", f"Finished:\n{result}")
+            QMessageBox.information(self, "Elumichai tool", f"Finished:\n{result}")
         except Exception as exc:
             QMessageBox.warning(self, "Tool unavailable", str(exc))
 
@@ -303,7 +303,7 @@ class MainWindow(QMainWindow):
                     subprocess.Popen(command)
                     break
         elif action == "float":
-            QMessageBox.information(self, "Float", "A floating shelf is not provided by the Linux desktop, but you can keep Citrus's tray icon available while moving files.")
+            QMessageBox.information(self, "Float", "A floating shelf is not provided by the Linux desktop, but you can keep Elumichai's tray icon available while moving files.")
         elif action == "airdrop":
             QMessageBox.information(self, "AirDrop", "AirDrop is Apple-only. Use your desktop's share action for these files.")
 

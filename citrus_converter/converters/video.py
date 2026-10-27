@@ -71,7 +71,7 @@ class VideoConverter(BaseConverter):
             input_path, out_fmt, output_dir and Path(output_dir),
         )
 
-        print(f"[citrus] Converting {input_path.name} → {output_path.name} …")
+        print(f"[elumichai] Converting {input_path.name} → {output_path.name} …")
 
         # Tangerine exposes MP3 extraction directly from the video wheel.
         if out_fmt == "mp3":
@@ -117,5 +117,5 @@ class VideoConverter(BaseConverter):
         cmd.append(str(output_path))
         self._run_command(cmd)
 
-        print(f"[citrus] Done → {output_path}")
+        print(f"[elumichai] Done → {output_path}")
         return str(output_path)

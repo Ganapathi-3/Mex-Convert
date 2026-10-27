@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 """
-Citrus Converter — Command-Line Interface
+Elumichai — Command-Line Interface
 
 Usage:
-    citrus-cli convert <input_file> <output_format> [--output-dir DIR] [--quality Q]
-    citrus-cli info <file>
-    citrus-cli formats [<file_or_category>]
-    citrus-cli tools <tool_name> <file> [options...]
-    citrus-cli batch <input_dir> <output_format> [--output-dir DIR] [--recursive]
-    citrus-cli check-deps
+    elumichai-cli convert <input_file> <output_format> [--output-dir DIR] [--quality Q]
+    elumichai-cli info <file>
+    elumichai-cli formats [<file_or_category>]
+    elumichai-cli tools <tool_name> <file> [options...]
+    elumichai-cli batch <input_dir> <output_format> [--output-dir DIR] [--recursive]
+    elumichai-cli check-deps
 
 Examples:
-    citrus-cli convert photo.heic png
-    citrus-cli convert video.mkv mp4 --output-dir /tmp
-    citrus-cli info photo.jpg
-    citrus-cli formats image
-    citrus-cli tools compress photo.jpg --quality 80
-    citrus-cli tools trim video.mp4 --start 00:01:00 --end 00:02:30
-    citrus-cli batch ./photos/ webp --recursive
-    citrus-cli check-deps
+    elumichai-cli convert photo.heic png
+    elumichai-cli convert video.mkv mp4 --output-dir /tmp
+    elumichai-cli info photo.jpg
+    elumichai-cli formats image
+    elumichai-cli tools compress photo.jpg --quality 80
+    elumichai-cli tools trim video.mp4 --start 00:01:00 --end 00:02:30
+    elumichai-cli batch ./photos/ webp --recursive
+    elumichai-cli check-deps
 """
 
 import argparse
@@ -68,7 +68,7 @@ def cmd_convert(args):
         options["quality"] = args.quality
 
     try:
-        print(f"🍊 Converting {input_path.name} → .{target}...")
+        print(f"🍋 Converting {input_path.name} → .{target}...")
         output_path = converter.convert(str(input_path), target, output_dir=str(output_dir) if output_dir else None, **options)
         print(f"Done! Output: {output_path}")
         return 0
@@ -232,7 +232,7 @@ def cmd_batch(args):
         print(f" No files found that can be converted to .{target}")
         return 1
 
-    print(f"🍊 Batch converting {len(convertible)} files → .{target}...")
+    print(f"🍋 Batch converting {len(convertible)} files → .{target}...")
     success = 0
     failed = 0
 
@@ -331,10 +331,10 @@ def _parse_tool_options(options_list):
 def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
-        prog="citrus-cli",
-        description=f"🍊 {__app_name__} v{__version__} — Free, offline file conversion tool",
+        prog="elumichai-cli",
+        description=f"🍋 {__app_name__} v{__version__} — Free, offline file conversion tool",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="Run 'citrus-cli <command> --help' for more info on a command.",
+        epilog="Run 'elumichai-cli <command> --help' for more info on a command.",
     )
     parser.add_argument("--version", action="version", version=f"{__app_name__} v{__version__}")
 

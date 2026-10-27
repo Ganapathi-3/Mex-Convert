@@ -15,7 +15,7 @@ class ConversionError(Exception):
 
 
 class BaseConverter:
-    """Abstract base class for all Citrus converters.
+    """Abstract base class for all Elumichai converters.
 
     Subclasses must populate ``_conversions`` — a dict mapping each supported
     input extension (lower-case, no dot) to a list of valid output extensions.
@@ -126,7 +126,7 @@ class BaseConverter:
         for tool in self._required_tools:
             if shutil.which(tool) is None:
                 print(
-                    f"[citrus-converter] WARNING: '{tool}' not found on PATH. "
+                    f"[elumichai] WARNING: '{tool}' not found on PATH. "
                     f"Some conversions may fail."
                 )
 

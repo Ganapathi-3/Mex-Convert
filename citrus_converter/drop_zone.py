@@ -1,5 +1,5 @@
 """
-Citrus Converter — Drop Zone Widget
+Elumichai — Drop Zone Widget
 =====================================
 Large drag-and-drop area that accepts files from the file manager,
 highlights on hover, and emits the list of dropped file paths.

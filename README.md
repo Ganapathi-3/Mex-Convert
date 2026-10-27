@@ -1,4 +1,4 @@
-# 🍊 Citrus Converter
+# 🍋 Elumichai
 
 **Free, offline file conversion tool for Linux** — inspired by [Tangerine for macOS](https://tangerineformac.com/), but completely free, open-source, and unlimited.
 
@@ -8,13 +8,13 @@
 
 ## Features
 
-- ** Background drag workflow** — The app starts in the tray; hold Shift while dragging for conversions or Ctrl/Alt/Super for tools
-- ** Tangerine-compatible format wheel** — Images, video, audio, PDF, documents, slides, spreadsheets, subtitles, and archives
-- ** Built-in Tools** — Compress, resize, crop, trim, merge PDFs, strip metadata, and more
-- ** 100% Free** — No trial limits, no subscriptions, no payment ever
-- ** 100% Offline** — All processing happens locally on your machine
-- ** CLI Mode** — Full command-line interface for scripting and power users
-- ** Batch Processing** — Convert entire folders at once
+- **Background drag workflow** — The app starts in the tray; hold Shift while dragging for conversions or Ctrl/Alt/Super for tools
+- **Tangerine-compatible format wheel** — Images, video, audio, PDF, documents, slides, spreadsheets, subtitles, and archives
+- **Built-in Tools** — Compress, resize, crop, trim, merge PDFs, strip metadata, and more
+- **100% Free** — No trial limits, no subscriptions, no payment ever
+- **100% Offline** — All processing happens locally on your machine
+- **CLI Mode** — Full command-line interface for scripting and power users
+- **Batch Processing** — Convert entire folders at once
 
 ## Supported Formats
 
@@ -46,8 +46,8 @@
 ### Quick Install (Debian 12 / Ubuntu)
 
 ```bash
-git clone <repo-url> citrus-converter
-cd citrus-converter
+git clone <repo-url> elumichai
+cd elumichai
 chmod +x install.sh
 ./install.sh
 ```
@@ -70,9 +70,9 @@ pip3 install -e .
 
 ### GUI Mode
 ```bash
-citrus-converter
+elumichai
 ```
-1. Citrus starts automatically in the system tray after installation/login.
+1. Elumichai starts automatically in the system tray after installation/login.
 2. Drag a file from your file manager while holding **Shift** for conversions.
 3. Hold **Ctrl**, **Alt**, or **Super/Meta** (the Linux equivalent of Fn) for Tools.
 4. Release the file over a ring option. Wheel navigation makes a short sound when enabled.
@@ -82,38 +82,38 @@ The global drag ring uses X11. Wayland deliberately blocks global pointer and
 drag interception for security, so a desktop-specific Wayland integration is
 required there.
 
-You can also associate Citrus with files in your file manager. The installer registers
-the desktop entry with `Exec=citrus-converter %F`, so choosing **Open With → Citrus
-Converter** opens the wheel without showing the main window.
+You can also associate Elumichai with files in your file manager. The installer registers
+the desktop entry with `Exec=elumichai %F`, so choosing **Open With → Elumichai** opens
+the wheel without showing the main window.
 
 ### CLI Mode
 ```bash
 # Convert a file
-citrus-cli convert photo.heic png
-citrus-cli convert video.mkv mp4 --quality 80
+elumichai-cli convert photo.heic png
+elumichai-cli convert video.mkv mp4 --quality 80
 
 # Get file info
-citrus-cli info photo.jpg
+elumichai-cli info photo.jpg
 
 # List supported formats
-citrus-cli formats
-citrus-cli formats image
+elumichai-cli formats
+elumichai-cli formats image
 
 # Use tools
-citrus-cli tools compress photo.jpg --quality 80
-citrus-cli tools trim video.mp4 --start 00:01:00 --end 00:02:30
-citrus-cli tools strip_metadata photo.jpg
+elumichai-cli tools compress photo.jpg --quality 80
+elumichai-cli tools trim video.mp4 --start 00:01:00 --end 00:02:30
+elumichai-cli tools strip_metadata photo.jpg
 
 # Batch convert
-citrus-cli batch ./photos/ webp --recursive
+elumichai-cli batch ./photos/ webp --recursive
 
 # Check installed dependencies
-citrus-cli check-deps
+elumichai-cli check-deps
 ```
 
-## Citrus vs Tangerine
+## Elumichai vs Tangerine
 
-| Feature | Tangerine (macOS) | Citrus Converter |
+| Feature | Tangerine (macOS) | Elumichai |
 |---------|-------------------|------------------|
 | **Price** | ~$30 one-time | Free forever |
 | **File Limit** | 20 files free trial | Unlimited |
@@ -126,7 +126,7 @@ citrus-cli check-deps
 
 ## Architecture
 
-Citrus Converter is powered by industry-standard open-source tools:
+Elumichai is powered by industry-standard open-source tools:
 
 - **FFmpeg** — Video and audio conversion/processing
 - **ImageMagick** — Image conversion and manipulation

@@ -66,20 +66,20 @@ class ImageConverter(BaseConverter):
             input_path, out_fmt, output_dir and Path(output_dir),
         )
 
-        print(f"[citrus] Converting {input_path.name} → {output_path.name} …")
+        print(f"[elumichai] Converting {input_path.name} → {output_path.name} …")
 
         # HEIC input: try heif-convert first
         if in_ext == "heic" and shutil.which("heif-convert"):
             try:
                 self._convert_heic(input_path, output_path, out_fmt, options)
-                print(f"[citrus] Done → {output_path}")
+                print(f"[elumichai] Done → {output_path}")
                 return str(output_path)
             except ConversionError:
-                print("[citrus] heif-convert failed; falling back to ImageMagick.")
+                print("[elumichai] heif-convert failed; falling back to ImageMagick.")
 
         # General path — ImageMagick
         self._convert_imagemagick(input_path, output_path, out_fmt, options)
-        print(f"[citrus] Done → {output_path}")
+        print(f"[elumichai] Done → {output_path}")
         return str(output_path)
 
     # ── private helpers ──────────────────────────────────────────

@@ -1,0 +1,3 @@
+[console_scripts]
+elumichai = citrus_converter.main:main
+elumichai-cli = citrus_converter.cli:main

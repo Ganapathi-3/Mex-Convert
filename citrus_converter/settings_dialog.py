@@ -1,5 +1,5 @@
 """
-Citrus Converter — Settings Dialog
+Elumichai — Settings Dialog
 ====================================
 Allows the user to configure output location, theme, notifications,
 and inspect which CLI conversion tools are installed.

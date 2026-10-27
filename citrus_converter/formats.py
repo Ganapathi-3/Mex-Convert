@@ -1,5 +1,5 @@
 """
-Format registry for Citrus Converter.
+Format registry for Elumichai.
 
 Centralised mapping of file extensions to categories, converter classes,
 supported conversions, and format metadata (display name, extension, MIME type).

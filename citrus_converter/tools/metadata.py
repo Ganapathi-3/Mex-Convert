@@ -132,7 +132,7 @@ class MetadataTools:
         else:
             out = Path(output).resolve()
 
-        print(f"[citrus] Stripping metadata from {path.name} …")
+        print(f"[elumichai] Stripping metadata from {path.name} …")
 
         if shutil.which("exiftool"):
             MetadataTools._strip_exiftool(path, out)
@@ -145,7 +145,7 @@ class MetadataTools:
                 "No metadata tool found. Install exiftool, ffmpeg, or ImageMagick."
             )
 
-        print(f"[citrus] Done → {out}")
+        print(f"[elumichai] Done → {out}")
         return str(out)
 
     @staticmethod

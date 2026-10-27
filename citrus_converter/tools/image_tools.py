@@ -63,9 +63,9 @@ class ImageTools:
         """
         path = Path(path).resolve()
         out = _output_path(path, "_compressed")
-        print(f"[citrus] Compressing {path.name} (quality={quality}) …")
+        print(f"[elumichai] Compressing {path.name} (quality={quality}) …")
         _run([_magick(), str(path), "-quality", str(quality), str(out)])
-        print(f"[citrus] Done → {out}")
+        print(f"[elumichai] Done → {out}")
         return str(out)
 
     @staticmethod
@@ -78,9 +78,9 @@ class ImageTools:
         path = Path(path).resolve()
         out = _output_path(path, f"_{width}x{height}")
         geometry = f"{width}x{height}!"
-        print(f"[citrus] Resizing {path.name} → {geometry} …")
+        print(f"[elumichai] Resizing {path.name} → {geometry} …")
         _run([_magick(), str(path), "-resize", geometry, str(out)])
-        print(f"[citrus] Done → {out}")
+        print(f"[elumichai] Done → {out}")
         return str(out)
 
     @staticmethod
@@ -93,9 +93,9 @@ class ImageTools:
         path = Path(path).resolve()
         out = _output_path(path, "_cropped")
         geometry = f"{w}x{h}+{x}+{y}"
-        print(f"[citrus] Cropping {path.name} → {geometry} …")
+        print(f"[elumichai] Cropping {path.name} → {geometry} …")
         _run([_magick(), str(path), "-crop", geometry, "+repage", str(out)])
-        print(f"[citrus] Done → {out}")
+        print(f"[elumichai] Done → {out}")
         return str(out)
 
     @staticmethod
@@ -107,9 +107,9 @@ class ImageTools:
         """
         path = Path(path).resolve()
         out = _output_path(path, "_stripped")
-        print(f"[citrus] Stripping metadata from {path.name} …")
+        print(f"[elumichai] Stripping metadata from {path.name} …")
         _run([_magick(), str(path), "-strip", str(out)])
-        print(f"[citrus] Done → {out}")
+        print(f"[elumichai] Done → {out}")
         return str(out)
 
     @staticmethod

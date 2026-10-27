@@ -1,5 +1,5 @@
 """
-Citrus Converter — Radial Menu
+Elumichai — Radial Menu
 =================================
 A beautiful circular popup that shows conversion target formats as
 QPainter-drawn arc segments around a centre file-info label.
