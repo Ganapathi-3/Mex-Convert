@@ -1,0 +1,3 @@
+[console_scripts]
+citrus-cli = citrus_converter.cli:main
+citrus-converter = citrus_converter.main:main
