@@ -22,7 +22,6 @@ class _X11Pointer:
     BUTTON1_MASK = 1 << 8
     SHIFT_MASK = 1 << 0
     CONTROL_MASK = 1 << 2
-    ALT_MASK = 1 << 3
     META_MASK = 1 << 6
 
     def __init__(self) -> None:
@@ -94,7 +93,7 @@ class _X11Pointer:
 
 
 class GlobalDragMonitor(QObject):
-    """Activate a ring on Shift/Ctrl/Alt/Super while dragging on X11."""
+    """Activate a ring on Shift/Ctrl/Super while dragging on X11."""
 
     def __init__(self, radial_menu, parent=None) -> None:
         super().__init__(parent)
@@ -151,9 +150,11 @@ class GlobalDragMonitor(QObject):
     def _mode_for_mask(cls, mask: int) -> str | None:
         if mask & _X11Pointer.SHIFT_MASK:
             return "formats"
-        # Fn generally has no X11 keysym. These are practical Linux
-        # equivalents for the tools modifier.
-        if mask & (_X11Pointer.CONTROL_MASK | _X11Pointer.ALT_MASK | _X11Pointer.META_MASK):
+        # Fn generally has no X11 keysym. Ctrl and Super/Meta are practical
+        # Linux equivalents for the tools modifier. Alt is intentionally not
+        # used because desktop file managers commonly reserve Alt-drag for
+        # moving files between tabs/windows.
+        if mask & (_X11Pointer.CONTROL_MASK | _X11Pointer.META_MASK):
             return "tools"
         return None
 

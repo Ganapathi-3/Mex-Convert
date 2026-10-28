@@ -172,15 +172,16 @@ class DropZone(QWidget):
         """Map Tangerine-style drag modifiers to Linux keyboard modifiers.
 
         Shift is the conversion wheel. Linux Fn keys normally do not emit a
-        desktop-visible modifier, so Ctrl/Meta/Alt are accepted as the
-        practical Fn equivalent for the tools wheel.
+        desktop-visible modifier, so Ctrl/Meta are accepted as practical Fn
+        equivalents for the tools wheel. Alt is left free for file-manager
+        drag operations.
         """
         if not self._hold_paths:
             return
         from PySide6.QtCore import Qt
         if modifiers & Qt.ShiftModifier:
             mode = "formats"
-        elif modifiers & (Qt.ControlModifier | Qt.MetaModifier | Qt.AltModifier):
+        elif modifiers & (Qt.ControlModifier | Qt.MetaModifier):
             mode = "tools"
         else:
             mode = None
