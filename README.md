@@ -46,7 +46,7 @@
 ### Quick Install (Debian 12 / Ubuntu)
 
 ```bash
-git clone <repo-url> elumichai
+git clone https://github.com/Vinoth11111/Mex-Convert
 cd elumichai
 chmod +x install.sh
 ./install.sh
