@@ -100,6 +100,7 @@ class RadialMenu(QWidget):
 
         # interaction state
         self._hovered_index: int = -1
+        self._hovered_center: bool = False
         self._popup_opacity: float = 0.0
 
         # fade animation
@@ -134,6 +135,7 @@ class RadialMenu(QWidget):
         self._tool_items = tools[:12]
         self._wheel = wheel if wheel in {"formats", "tools", "actions"} else "formats"
         self._hovered_index = -1
+        self._hovered_center = False
 
         self.resize(520, 520)
         cursor = QCursor.pos()
@@ -156,6 +158,7 @@ class RadialMenu(QWidget):
         if wheel in {"formats", "tools", "actions"}:
             self._wheel = wheel
             self._hovered_index = -1
+            self._hovered_center = False
             self.update()
 
     def set_sound_enabled(self, enabled: bool) -> None:
@@ -170,6 +173,7 @@ class RadialMenu(QWidget):
         self._tool_items = ["compress", "edit_metadata", "crop_images", "trim_video", "merge_pdfs"]
         self._wheel = wheel if wheel in {"formats", "tools"} else "formats"
         self._hovered_index = -1
+        self._hovered_center = False
         # A global overlay is shown directly while a drag is in progress.
         # It does not use the normal fade-in path, so explicitly make it
         # visible.  Leaving this at the constructor default (0.0) makes
@@ -193,14 +197,20 @@ class RadialMenu(QWidget):
         if self._global_mode:
             local_pos = QPointF(global_pos.x() - self.x(), global_pos.y() - self.y())
             idx = self._index_at(local_pos, allow_outside=True)
-            if idx != self._hovered_index:
-                self._hovered_index = idx
-                if idx >= 0:
-                    self._play_hover_sound()
-            self.update()
+            c = self._centre()
+            inner_r, _, _ = self._radii()
+            center_hovered = math.hypot(local_pos.x() - c.x(), local_pos.y() - c.y()) < inner_r
+            state_changed = (idx != self._hovered_index) or (center_hovered != self._hovered_center)
+            self._hovered_index = idx
+            self._hovered_center = center_hovered
+            if idx >= 0 and state_changed:
+                self._play_hover_sound()
+            if state_changed:
+                self.update()
 
     def dismiss(self) -> None:
         """Fade out and hide."""
+        self._hovered_center = False
         self._fade_anim.stop()
         self._fade_anim.setStartValue(self._popup_opacity)
         self._fade_anim.setEndValue(0.0)
@@ -264,10 +274,11 @@ class RadialMenu(QWidget):
         items = self._items
         if not items:
             return -1
-        if not allow_outside and (dist < inner_r or dist > outer_r + 6):
+        # Inside the center/middle hole of the ring: always unselected (cancel zone)
+        if dist < inner_r:
             return -1
-        if dist < 1.0:
-            return self._hovered_index if self._hovered_index >= 0 else -1
+        if not allow_outside and dist > outer_r + 6:
+            return -1
 
         # angle in degrees (0 = 3-o'clock, CCW positive — match Qt convention)
         angle_rad = math.atan2(-dy, dx)
@@ -309,11 +320,17 @@ class RadialMenu(QWidget):
             super().keyPressEvent(event)
 
     def mouseMoveEvent(self, event) -> None:  # noqa: N802
-        idx = self._index_at(QPointF(event.pos()), allow_outside=self._global_mode)
-        if idx != self._hovered_index:
-            self._hovered_index = idx
-            if idx >= 0:
-                self._play_hover_sound()
+        pos = QPointF(event.pos())
+        idx = self._index_at(pos, allow_outside=self._global_mode)
+        c = self._centre()
+        inner_r, _, _ = self._radii()
+        center_hovered = math.hypot(pos.x() - c.x(), pos.y() - c.y()) < inner_r
+        state_changed = (idx != self._hovered_index) or (center_hovered != self._hovered_center)
+        self._hovered_index = idx
+        self._hovered_center = center_hovered
+        if idx >= 0 and state_changed:
+            self._play_hover_sound()
+        if state_changed:
             self.update()
 
     def dragEnterEvent(self, event) -> None:  # noqa: N802
@@ -339,7 +356,6 @@ class RadialMenu(QWidget):
         event.acceptProposedAction()
 
     def dragMoveEvent(self, event) -> None:  # noqa: N802
-        event.setDropAction(Qt.CopyAction)
         self._hovered_index = self._index_at(
             QPointF(event.pos()), allow_outside=self._global_mode
         )
@@ -347,8 +363,19 @@ class RadialMenu(QWidget):
         event.acceptProposedAction()
 
     def dropEvent(self, event) -> None:  # noqa: N802
-        """Choose the segment where the held file is released."""
-        idx = self._index_at(QPointF(event.pos()), allow_outside=self._global_mode)
+        """Choose the segment where the held file is released, or cancel if in the center."""
+        pos = QPointF(event.pos())
+        idx = self._index_at(pos, allow_outside=self._global_mode)
+        c = self._centre()
+        inner_r, _, _ = self._radii()
+        dist = math.hypot(pos.x() - c.x(), pos.y() - c.y())
+
+        if dist < inner_r:
+            # Dropped inside the mid/center of the ring: cancel the operation
+            self.dismiss()
+            event.acceptProposedAction()
+            return
+
         if idx >= 0:
             picked = self._items[idx]
             self.dismiss()
@@ -360,6 +387,7 @@ class RadialMenu(QWidget):
                 self.conversion_requested.emit(self._file_paths, picked)
             event.acceptProposedAction()
         else:
+            self.dismiss()
             event.ignore()
 
     def _play_hover_sound(self) -> None:
@@ -376,8 +404,17 @@ class RadialMenu(QWidget):
         if self._toggle_rect().contains(pos):
             self._wheel = {"formats": "tools", "tools": "actions", "actions": "formats"}[self._wheel]
             self._hovered_index = -1
+            self._hovered_center = False
             self._play_hover_sound()
             self.update()
+            return
+
+        # Clicking inside the center of the ring: cancel and dismiss
+        c = self._centre()
+        inner_r, outer_r, _ = self._radii()
+        dist = math.hypot(pos.x() - c.x(), pos.y() - c.y())
+        if dist < inner_r:
+            self.dismiss()
             return
 
         # Check segment
@@ -395,9 +432,6 @@ class RadialMenu(QWidget):
             return
 
         # Click outside — dismiss
-        c = self._centre()
-        _, outer_r, _ = self._radii()
-        dist = math.hypot(pos.x() - c.x(), pos.y() - c.y())
         if dist > outer_r + 30:
             self.dismiss()
 
@@ -431,7 +465,7 @@ class RadialMenu(QWidget):
             self._draw_segment(p, c, inner_r, outer_r, start_deg, span_deg,
                                items[i], hovered)
 
-        # 3) Centre circle — file info
+        # 3) Centre circle — file info & cancel state
         self._draw_centre(p, c, centre_r)
 
         # 4) Toggle button (Formats / Tools)
@@ -508,13 +542,35 @@ class RadialMenu(QWidget):
 
         # Background circle
         p.setPen(Qt.NoPen)
-        p.setBrush(QBrush(QColor("#252525")))
+        bg_color = QColor("#382323") if self._hovered_center else QColor("#252525")
+        p.setBrush(QBrush(bg_color))
         p.drawEllipse(c, r, r)
 
         # Border ring
-        p.setPen(QPen(ACCENT, 2.0))
+        border_pen = QPen(QColor("#FF453A") if self._hovered_center else ACCENT, 2.0)
+        p.setPen(border_pen)
         p.setBrush(Qt.NoBrush)
         p.drawEllipse(c, r, r)
+
+        # When hovered directly in the center, show explicit cancel prompt
+        if self._hovered_center:
+            p.setPen(QPen(QColor("#FF453A")))
+            p.setFont(QFont("Sans", 12, QFont.Bold))
+            fm = QFontMetrics(p.font())
+            cancel_text = "✕ CANCEL"
+            p.drawText(
+                QPointF(c.x() - fm.horizontalAdvance(cancel_text) / 2, c.y() - 2),
+                cancel_text,
+            )
+            p.setPen(QPen(TEXT_GREY))
+            p.setFont(QFont("Sans", 8))
+            fm2 = QFontMetrics(p.font())
+            sub_text = "Release to dismiss"
+            p.drawText(
+                QPointF(c.x() - fm2.horizontalAdvance(sub_text) / 2, c.y() + 16),
+                sub_text,
+            )
+            return
 
         # File info text
         if self._file_paths:
