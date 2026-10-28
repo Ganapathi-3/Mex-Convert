@@ -8,7 +8,7 @@
 
 ## Features
 
-- **Background drag workflow** — The app starts in the tray; hold Shift while dragging for conversions or Ctrl/Alt/Super for tools
+- **Background drag workflow** — The app starts in the tray; hold Shift while dragging for conversions or Ctrl/Super for tools
 - **Tangerine-compatible format wheel** — Images, video, audio, PDF, documents, slides, spreadsheets, subtitles, and archives
 - **Built-in Tools** — Compress, resize, crop, trim, merge PDFs, strip metadata, and more
 - **100% Free** — No trial limits, no subscriptions, no payment ever
@@ -74,7 +74,7 @@ elumichai
 ```
 1. Elumichai starts automatically in the system tray after installation/login.
 2. Drag a file from your file manager while holding **Shift** for conversions.
-3. Hold **Ctrl**, **Alt**, or **Super/Meta** (the Linux equivalent of Fn) for Tools.
+3. Hold **Ctrl** or **Super/Meta** (Linux equivalents of Fn) for Tools. Alt remains available for normal file-manager dragging.
 4. Release the file over a ring option. Wheel navigation makes a short sound when enabled.
 5. The converted file is saved next to the original.
 
